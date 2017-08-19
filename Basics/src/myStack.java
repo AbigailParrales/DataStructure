@@ -1,26 +1,26 @@
 
-public class myStack <N extends Comparable<N>>{
-
+public class myStack <N>{
+	private Node top;
+	private int length;
 	
-	private static class Node {
-		private Comparable data;
-		private Node next;
-		private Node (Comparable data) {
+	public static class Node {
+		public int key;
+		public Comparable data;
+		public Node next;
+		
+		public Node (Comparable data) {
 			this.data=data;
 		}
-	}
-	
-	public Node top;
-	
+}
+
 	public void push(Comparable data) {
 		Node node = new Node(data);
 		node.next= top;
+		length++;
 	}
 	
-	public Comparable pop(){
-		Comparable data = top.data;
+	public void pop(){
 		top = top.next;
-		return data;
 	}
 	
 	public Node peek() {
@@ -29,6 +29,18 @@ public class myStack <N extends Comparable<N>>{
 	
 	public Boolean isEmpty() {
 		return top==null;
+	}
+	
+	public String toString() {
+		String tmp="";
+		Node copy= new Node(0);
+		
+		for(int i = 0;i>length;i++) {
+			tmp+=top.data;
+			
+		}
+		
+		return null;
 	}
 	
 }
