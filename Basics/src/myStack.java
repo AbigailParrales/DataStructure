@@ -1,25 +1,26 @@
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
+import java.awt.Graphics;
+import java.util.ArrayList;
 
-public class myStack <N>{
+public class myStack <N> implements Pintable{
 	private Node top;
 
-	public static class Node {
-		public Comparable data;
+	public class Node {
+		public N data;
 		public Node next;
 
-		public Node (Comparable data) {
+		public Node (N data) {
 			this.data=data;
 		}
 
 		public Node() {
-			this.data = "";
-			this.next = new Node(0);
+			this.data = null;
+			this.next = new Node(null);
 		}
 
 
 	}
 
-	public void push(Comparable data) {
+	public void push(N data) {
 		Node node = new Node(data);
 		if (this.isEmpty()) {
 			//System.out.println("estoy en el if del push");
@@ -44,7 +45,7 @@ public class myStack <N>{
 		this.top = this.top.next;
 	}
 
-	public Comparable peek() {
+	public N peek() {
 		return this.top.data;
 	}
 
@@ -53,32 +54,64 @@ public class myStack <N>{
 	}
 
 	public String toString() {
-		System.out.println("estoy en toString()\n");
+		//		System.out.println("estoy en toString()\n");
 
 		String tmp="";
 
-		System.out.println("hice una copia de top");
-		Node copy= new Node(0);
+		//		System.out.println("hice una copia de top");
+		Node copy= new Node(null);
 		copy=this.top;
 
 		while (copy!=null){
-			System.out.println("Estoy en el while");
+			//			System.out.println("Estoy en el while");
 			tmp+=copy.data+", ";
 			if(copy.next==null) {
 				break;
 			}
 			else {
 				copy=copy.next;
-				System.out.println("tmp actualizada= "+ tmp );
-				System.out.println("nuva data del copy: "+ copy.data+"");
+				//				System.out.println("tmp actualizada= "+ tmp );
+				//				System.out.println("nuva data del copy: "+ copy.data+"");
 			}
 		}
 
-		System.out.println("Salí del while");
-		System.out.println("Este es el tmp que regresaré: "+tmp);
-		System.out.println("Saliendo de toString()\n");
+		//		System.out.println("Salí del while");
+		//		System.out.println("Este es el tmp que regresaré: "+tmp);
+		//		System.out.println("Saliendo de toString()\n");
 
 		return tmp;
+	}
+
+	@Override
+	public void pintate(Graphics g) {
+		ArrayList<N> tmp= new ArrayList<N>();
+		
+		Node copy= new Node(null);
+		copy=this.top;
+
+		while (copy!=null){
+			//			System.out.println("Estoy en el while");
+			
+			tmp.add(copy.data);
+			if(copy.next==null) {
+				break;
+			}
+			else {
+				copy=copy.next;
+				//				System.out.println("tmp actualizada= "+ tmp );
+				//				System.out.println("nuva data del copy: "+ copy.data+"");
+			}		
+		}
+		
+		for(int i = 0; i<tmp.size();i++) {
+			((Pintable) tmp.get(i)).pintate(g);
+		}
+	}
+
+	@Override
+	public void agregarCoordenada(int x, int y) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
