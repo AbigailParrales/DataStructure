@@ -12,6 +12,7 @@ public class Top extends JComponent implements Pintable, MouseListener{
 	private Dimension dim=new Dimension(90,50);
 	Point p1,
     	  p2;
+	Color color;
 	
 	public Top() {
 		super(); 
@@ -19,12 +20,14 @@ public class Top extends JComponent implements Pintable, MouseListener{
 		
 		this.p1=  new Point(190,500);
 		this.p2=  new Point(280,450);
+		
+		this.color = new Color(255, 255, 51);
 	}
 	
 	@Override
 	public void pintate(Graphics g) {
-		g.setColor(Color.YELLOW);
-		g.fillRect(190, 500, this.dim.width, this.dim.height);	
+		g.setColor(this.color);
+		g.fillRect(190, 500, this.dim.width, this.dim.height);
 	}
 
 	@Override
@@ -40,6 +43,16 @@ public class Top extends JComponent implements Pintable, MouseListener{
 		      System.out.println("estoy en Top");
 		   }
 	}
+	
+	@Override
+	public void seleccionar() {
+		System.out.println("Estoy en seleccionar Top");
+		this.color=new Color(255,204,0);
+		
+	}
+	
+	
+	
 
 	@Override
 	public void mousePressed(MouseEvent e) {

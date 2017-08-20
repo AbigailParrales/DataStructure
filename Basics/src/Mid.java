@@ -12,6 +12,7 @@ public class Mid extends JComponent implements Pintable, MouseListener{
 	private Dimension dim= new Dimension(130,50);
 	Point p1,
 	      p2;
+	Color color;
 
 	public Mid() {
 		super();
@@ -20,11 +21,13 @@ public class Mid extends JComponent implements Pintable, MouseListener{
 		this.p1=  new Point(170,550);
 		this.p2=  new Point(300,500);
 		
+		this.color=new Color(255, 51, 153);
+		
 	}
 	
 	@Override
 	public void pintate(Graphics g) {
-		g.setColor(Color.MAGENTA);
+		g.setColor(this.color);
 		g.fillRect(170, 550, this.dim.width, this.dim.height);		
 	}
 
@@ -42,6 +45,14 @@ public class Mid extends JComponent implements Pintable, MouseListener{
 		   }
 	}
 
+	@Override
+	public void seleccionar() {
+		this.color=new Color(204,51,204);
+	}
+	
+	
+	
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -65,5 +76,6 @@ public class Mid extends JComponent implements Pintable, MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

@@ -112,5 +112,11 @@ public class myStack <N> implements Pintable{
 		
 	}
 
+	@Override
+	public void seleccionar() {
+		System.out.println("Estoy en seleccionar de myStack");
+		((Pintable) this.top.data).seleccionar();
+	}
+
 	
 }

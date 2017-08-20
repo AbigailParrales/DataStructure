@@ -11,6 +11,7 @@ public class Base extends JComponent implements Pintable{
 	Dimension dim = new Dimension(170,50);
 	Point p1,
 		  p2;
+	Color color;
 	
 	public Base() {
 		super();
@@ -18,11 +19,13 @@ public class Base extends JComponent implements Pintable{
 		
 		this.p1=  new Point(150,600);
 		this.p2=  new Point(220,550);
+		
+		this.color=new Color(0, 255, 255);
 	}
 	
 	@Override
 	public void pintate(Graphics g) {
-		g.setColor(Color.CYAN);
+		g.setColor(this.color);
 		g.fillRect(150, 600, this.dim.width, this.dim.height);
 	}
 
@@ -30,6 +33,12 @@ public class Base extends JComponent implements Pintable{
 	public void agregarCoordenada(int x, int y) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void seleccionar() {
+		this.color=new Color(0, 102, 255);
+		this.repaint();
 	}
 
 	/*@Override
