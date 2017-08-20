@@ -16,8 +16,6 @@ public class myStack <N> implements Pintable{
 			this.data = null;
 			this.next = new Node(null);
 		}
-
-
 	}
 
 	public void push(N data) {
@@ -111,7 +109,8 @@ public class myStack <N> implements Pintable{
 	@Override
 	public void agregarCoordenada(int x, int y) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
+	
 }

@@ -8,7 +8,7 @@ public class HanoiWin extends JFrame {
 	public HanoiWin() {
 		super();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setSize(new Dimension(1000, 800));
+		this.setSize(new Dimension(1000, 750));
 		this.setResizable(false);
 		this.setVisible(true);
 		

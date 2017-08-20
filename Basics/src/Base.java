@@ -7,14 +7,14 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JComponent;
 
-public class Base extends JComponent implements Pintable, MouseListener{
+public class Base extends JComponent implements Pintable{
 	Dimension dim = new Dimension(170,50);
 	Point p1,
 		  p2;
 	
 	public Base() {
 		super();
-		this.addMouseListener(this);
+		//this.addMouseListener(this);
 		
 		this.p1=  new Point(150,600);
 		this.p2=  new Point(220,550);
@@ -32,7 +32,7 @@ public class Base extends JComponent implements Pintable, MouseListener{
 		
 	}
 
-	@Override
+	/*@Override
 	public void mouseClicked(MouseEvent e) {
 		 System.out.println("estoy en mouseclicked de Base");
 		if ((e.getButton() == 1) && (e.getX()>p1.getX())&&(e.getX()<p1.getX())&&(e.getX()<p2.getX())&&(e.getX()>p2.getX())&&(e.getY()<p1.getY())&&(e.getY()<p2.getY())&&(e.getY()>p2.getY())){
@@ -62,6 +62,6 @@ public class Base extends JComponent implements Pintable, MouseListener{
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
 
 }
