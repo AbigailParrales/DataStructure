@@ -1,55 +1,55 @@
+package Ruleta1cnButtons;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class ComponentsHanoi extends JPanel implements MouseListener{
+import javafx.scene.control.Button;
 
-	private myStack<Pintable> A;
-	private myStack<Pintable> B;
-	private myStack<Pintable> C;
+public class ComponentsHanoi_Bt extends JPanel implements /*MouseListener,*/ ActionListener{
+	
+	private JButton baseA,
+					midA,
+					topA;
 
-	private Base baseA;
-	private Mid midA;
-	private Top topA;
-	private puntoCiego Bp1;
-	private puntoCiego Bp2;
+	private myStack<JButton> A;
+	private myStack<JButton> B;
+	private myStack<JButton> C;
 
-	private String torreSel;
-	private String torreSource;
-	private String torreDestiny;
-
-	public ComponentsHanoi() {
+	public ComponentsHanoi_Bt() {
 		super();
-		this.setPreferredSize(new Dimension(1000, 750));
+		this.setPreferredSize(new Dimension(900, 700));
 		this.setBackground(Color.WHITE);
-		this.addMouseListener(this);
+		//this.addMouseListener(this);
 		
-		this.A = new myStack<Pintable>();
-		this.B = new myStack<Pintable>();
-		this.C = new myStack<Pintable>();
+		this.A = new myStack<JButton>();
+		this.B = new myStack<JButton>();
+		this.C = new myStack<JButton>();
 		
-		this.Bp1 = new puntoCiego();
-		this.B.push(Bp1);
-		
-		this.Bp2 = new puntoCiego();
-		this.C.push(Bp2);
-		
-		this.baseA = new Base();
+		this.baseA = new JButton();
+		this.baseA.setForeground(new Color (0, 255, 255));
+		this.baseA.setBounds(150, 600, 170, 50);
+		this.baseA.addActionListener(this);
 		this.A.push(baseA);
 
-		this.midA = new Mid();
+		this.midA = new JButton();
+		this.midA.setForeground(new Color(255, 51, 153));
+		this.midA.setBounds(170, 155, 130, 50);
+		this.midA.addActionListener(this);
 		this.A.push(midA);
 
-		this.topA = new Top();
+		this.topA = new JButton();
+		this.topA.setForeground(new Color(255, 51, 153));
+		this.topA.setBounds(190, 500, 170, 50);
+		this.topA.addActionListener(this);
 		this.A.push(topA);
 
-		this.torreSel="";
-		this.torreSource="";
-		this.torreDestiny="";
 	}
 
 	public void paintComponent(Graphics g){
@@ -65,14 +65,22 @@ public class ComponentsHanoi extends JPanel implements MouseListener{
 		g.fillRect(225, 450, 20, 200);
 		g.fillRect(725, 450, 20, 200);
 		g.fillRect(475, 150, 20, 200);
+		
 
+		/*
 		this.A.pintate(g);
 		this.B.pintate(g);
-		this.C.pintate(g);
+		this.C.pintate(g);*/
 
 	}
 
 	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+/*	@Override
 	public void mouseClicked(MouseEvent e) {
 		System.out.println("Estoy en el listener de componentes");
 		System.out.println("x= "+e.getX());
@@ -249,6 +257,12 @@ public class ComponentsHanoi extends JPanel implements MouseListener{
 
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
+*/
 }

@@ -1,3 +1,4 @@
+package Ruleta1cnButtons;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -7,27 +8,26 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JComponent;
 
-public class Top extends JComponent implements Pintable, MouseListener{
-	
-	private Dimension dim=new Dimension(90,50);
+public class Base extends JComponent implements Pintable{
+	Dimension dim = new Dimension(170,50);
 	Point p1,
-    	  p2;
+		  p2;
 	Color color;
 	
-	public Top() {
-		super(); 
-		this.addMouseListener(this);
+	public Base() {
+		super();
+		//this.addMouseListener(this);
 		
-		this.p1=  new Point(190,500);
-		this.p2=  new Point(280,450);
+		this.p1=  new Point(150,600);
+		this.p2=  new Point(220,550);
 		
-		this.color = new Color(255, 255, 51);
+		this.color=new Color(0, 255, 255);
 	}
 	
 	@Override
 	public void pintate(Graphics g) {
 		g.setColor(this.color);
-		g.fillRect(190, 500, this.dim.width, this.dim.height);
+		g.fillRect(150, 600, this.dim.width, this.dim.height);
 	}
 
 	@Override
@@ -37,21 +37,18 @@ public class Top extends JComponent implements Pintable, MouseListener{
 	}
 
 	@Override
+	public void seleccionar() {
+		this.color=new Color(0, 102, 255);
+		this.repaint();
+	}
+
+	/*@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("estoy en mouseclicked de Top");
-		if ((e.getButton() == 1) && (e.getX()>p1.getX())&&(e.getX()<p1.getX())&&(e.getX()<p2.getX())&&(e.getX()>p2.getX())&&(e.getY()<p1.getY())&&(e.getY()<p2.getY())&&(e.getY()>p2.getY())) {
-		      System.out.println("estoy en Top");
+		 System.out.println("estoy en mouseclicked de Base");
+		if ((e.getButton() == 1) && (e.getX()>p1.getX())&&(e.getX()<p1.getX())&&(e.getX()<p2.getX())&&(e.getX()>p2.getX())&&(e.getY()<p1.getY())&&(e.getY()<p2.getY())&&(e.getY()>p2.getY())){
+		     System.out.println("baseA");
 		   }
 	}
-	
-	@Override
-	public void seleccionar() {
-		System.out.println("Estoy en seleccionar Top");
-		this.color=new Color(255,204,0);
-	}
-	
-	
-	
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -75,6 +72,6 @@ public class Top extends JComponent implements Pintable, MouseListener{
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
 
 }
