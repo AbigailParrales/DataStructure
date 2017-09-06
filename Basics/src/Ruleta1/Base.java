@@ -27,7 +27,16 @@ public class Base extends JComponent implements Pintable{
 	@Override
 	public void pintate(Graphics g) {
 		g.setColor(this.color);
-		g.fillRect(this.p1.x, this.p1.y, this.dim.width, this.dim.height);
+		
+		if(this.elementosStack==0) {
+			g.fillRect(this.p1.x, this.p1.y, this.dim.width, this.dim.height);
+		}
+		else if(this.elementosStack==1) {
+			g.fillRect(this.p1.x, this.p1.y-50, this.dim.width, this.dim.height);
+		}
+		else if(this.elementosStack==2) {
+		g.fillRect(this.p1.x, this.p1.y-100, this.dim.width, this.dim.height);
+		}
 	}
 
 	@Override

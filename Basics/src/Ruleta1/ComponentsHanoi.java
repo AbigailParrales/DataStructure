@@ -7,6 +7,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class ComponentsHanoi extends JPanel implements MouseListener{
 
 	private myStack<Pintable> A;
@@ -20,13 +21,11 @@ public class ComponentsHanoi extends JPanel implements MouseListener{
 	private Base baseA;
 	private Mid midA;
 	private Top topA;
-	private puntoCiego Bp1,
-	Bp2,
-	Bp3,
-	Bp4,
-	Bp5;
+	private puntoCiego Bp1;
 
-
+	/*private int elementosA;
+	private int elementosB;
+	private int elementosC;*/
 
 	public ComponentsHanoi() {
 		super();
@@ -35,61 +34,39 @@ public class ComponentsHanoi extends JPanel implements MouseListener{
 		this.addMouseListener(this);
 
 		this.Bp1 = new puntoCiego();
-		this.Bp2 = new puntoCiego();
-		this.Bp3 = new puntoCiego();
 		
 		this.A = new myStack<Pintable>(Bp1);
 		this.A.agregarCoordenada(150, 600);
 		
+		
 		this.B = new myStack<Pintable>(Bp1);
 		this.B.agregarCoordenada(400, 300);
 		
+		
 		this.C = new myStack<Pintable>(Bp1);
 		this.C.agregarCoordenada(650, 600);
-
+		
 
 		this.torreSel= new myStack<Pintable>(Bp1);
 		this.torreSource=new myStack<Pintable>(Bp1);
 		this.torreDestiny=new myStack<Pintable>(Bp1);
 
 		this.baseA = new Base();
-		this.baseA.setElementosStack(this.B.getElements());
-		this.B.push(baseA);
-
-		this.midA = new Mid();
-		this.midA.setElementosStack(this.B.getElements());
-		this.B.push(midA);
-
-		this.topA = new Top();
-		this.topA.setElementosStack(this.B.getElements());
-		this.B.push(topA);
-
-		
-		/*this.baseA = new Base();
-		this.baseA.setElementosStack(this.C.getElements());
-		this.C.push(baseA);
-
-		this.midA = new Mid();
-		this.midA.setElementosStack(this.C.getElements());
-		this.C.push(midA);
-
-		this.topA = new Top();
-		this.topA.setElementosStack(this.C.getElements());
-		this.C.push(topA);*/
-		
-		/*
-		 * this.baseA = new Base();
-		this.baseA.setElementosStack(this.A.getElements());
 		this.A.push(baseA);
 
 		this.midA = new Mid();
-		this.midA.setElementosStack(this.A.getElements());
 		this.A.push(midA);
 
 		this.topA = new Top();
-		this.topA.setElementosStack(this.A.getElements());
-		this.A.push(topA);*/
+		this.A.push(topA);
 
+		/*this.elementosA=this.A.getElements();
+		this.elementosB=this.B.getElements();
+		this.elementosC=this.C.getElements();
+		
+		System.out.println("Elementos en A= "+this.elementosA);
+		System.out.println("Elementos en B= "+this.elementosB);
+		System.out.println("Elementos en C= "+this.elementosC);	*/
 	}
 
 	public void paintComponent(Graphics g){
@@ -117,26 +94,23 @@ public class ComponentsHanoi extends JPanel implements MouseListener{
 		
 		if ((e.getX()<370)&&(e.getY()>400)) {
 			this.torreSel=this.A;
-			System.out.println("\nClick en la torre A\n");
 		}
 
 		else if ((e.getX()<600)&&(e.getX()>370)&&(e.getY()<400)) {
 			this.torreSel=this.B;
-			System.out.println("\nClick en la torre B\n");
 		}
 
 		else if ((e.getX()>600)&&(e.getY()>400)) {
 			this.torreSel=this.C;
-			System.out.println("\nClick en la torre C\n");
 		}
 
 		this.seleccionarTorre(this.torreSel);
 		this.repaint();
+		
 	}
 
 
 	public void seleccionarTorre(myStack<Pintable> torreSel) {
-		System.out.println("Entré a seleccionar Torre\n");
 
 		if(this.torreSource.peek().equals(Bp1)||this.torreSource==null) {
 
@@ -144,24 +118,19 @@ public class ComponentsHanoi extends JPanel implements MouseListener{
 			this.torreSel=null;
 			this.torreDestiny=null;
 
-			System.out.println("Entré a seleccionar origen");
-			System.out.println("Esta es la torre source: "+ this.torreSource+" \n");
-
 			if(this.torreSource.equals(this.A)) {
-				System.out.println("Torre A seleccionada");
 				this.A.seleccionar();
 				this.repaint();
 			}
 			else if(this.torreSource.equals(this.B)) {
-				System.out.println("Torre B seleccionada");	
 				this.B.seleccionar();
 				this.repaint();
 			}
 			else if(this.torreSource.equals(this.C)) {
-				System.out.println("Torre C seleccionada");
 				this.C.seleccionar();
 				this.repaint();
 			}
+			
 		}
 
 		else {
@@ -169,87 +138,62 @@ public class ComponentsHanoi extends JPanel implements MouseListener{
 			this.torreDestiny=torreSel;
 			this.torreSel=null;
 
-			System.out.println("Entré a seleccionar destino");
-			System.out.println("Esta es la torre destino: "+ this.torreDestiny+""+"\n");
-
-
 			if(this.torreDestiny.equals(this.A)) {
-				System.out.println("Torre A seleccionada");
 				this.A.seleccionar();
 				this.repaint();
 			}
 			else if(this.torreDestiny.equals(this.B)) {
-				System.out.println("Torre B seleccionada");	
 				this.B.seleccionar();
 				this.repaint();
 			}
 			else if(this.torreDestiny.equals(this.C)) {
-				System.out.println("Torre C seleccionada");
 				this.C.seleccionar();
 				this.repaint();
 			}
-
+			
 			this.move();
+			
 			this.repaint();
 		}
+		
 	}
 
 	public void move() {
-		System.out.println("Entré a move");
-
 		if(this.torreDestiny.equals(this.A)) {
-			System.out.println("Torre A seleccionada como destino");
 
 			if(this.torreSource.equals(this.B)) {
 				this.A.push(this.B.peek());
 				this.B.pop();
-				System.out.println("Moví B->A");
 			}
 			else if(this.torreSource.equals(this.C)) {
 				this.A.push(this.C.peek());
 				this.C.pop();
-				System.out.println("Moví C->A");
 			}
 		}
-
 		else if(this.torreDestiny.equals(this.B)) {
-			System.out.println("Torre B seleccionada como destino");
 			
 			if(this.torreSource.equals(this.A)) {
 				this.B.push(this.A.peek());
 				this.A.pop();
-				System.out.println("Moví A->B");
 			}
 			else if(this.torreSource.equals(this.C)) {
 				this.B.push(this.C.peek());
 				this.C.pop();
-				System.out.println("Moví C->B");
 			}
 		}
-
 		else if(this.torreDestiny.equals(this.C)) {
-			System.out.println("Torre C seleccionada como destino");
 
 			if(this.torreSource.equals(this.A)){
 				this.C.push(this.A.peek());
 				this.A.pop();
-				System.out.println("Moví A->C");
 			}
 			else if(this.torreSource.equals(this.B)) {
 				this.C.push(this.B.peek());
 				this.B.pop();
-				System.out.println("Moví B->C");
 			}
 		}
-		
-		//this.torreSource=null;
-		
-		System.out.println("A"+this.A+"");
-		System.out.println("B"+this.B+"");
-		System.out.println("C"+this.C+"");
-		
 		this.repaint();
-		System.out.println("Terminé move\n");
+		this.torreSel=null;
 	}
 
 

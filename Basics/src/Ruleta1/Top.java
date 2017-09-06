@@ -9,35 +9,29 @@ import java.awt.event.MouseListener;
 import javax.swing.JComponent;
 
 public class Top extends JComponent implements Pintable{
-	
+
 	private Dimension dim=new Dimension(90,50);
 	private Point p1;
 	private int elementosStack;
-	
+
 	Color color;
-	
+
 	public Top() {
 		super(); 
-		
+
 		this.p1=  new Point(190,500);
 		this.color = new Color(255, 255, 51);
-		
+
 		//this.elementosStack
 	}
-	
+
 	@Override
 	public void pintate(Graphics g) {
 		g.setColor(this.color);
+
+		//System.out.println("Elementos en el Stack");
 		
-		if(this.elementosStack==0) {
-			g.fillRect(this.p1.x+40,this.p1.y, this.dim.width, this.dim.height);
-		}
-		else if(this.elementosStack==1) {
-			g.fillRect(this.p1.x+40,this.p1.y-50, this.dim.width, this.dim.height);
-		}
-		else if(this.elementosStack==2) {
-		g.fillRect(this.p1.x+40,this.p1.y-100, this.dim.width, this.dim.height);
-		}
+		g.fillRect(this.p1.x+40,this.p1.y-(50*elementosStack), this.dim.width, this.dim.height);
 		//g.fillRect(190, 500, this.dim.width, this.dim.height);
 	}
 
@@ -54,12 +48,12 @@ public class Top extends JComponent implements Pintable{
 		this.p1.setLocation(x, y);
 	}
 
-	
+
 	@Override
 	public void seleccionar() {
 		//System.out.println("Estoy en seleccionar Top");
 		this.color=new Color(255,204,0);
 	}
-	
+
 
 }

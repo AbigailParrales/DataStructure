@@ -28,7 +28,7 @@ public class Mid extends JComponent implements Pintable{
 	@Override
 	public void pintate(Graphics g) {
 		g.setColor(this.color);
-		g.fillRect(this.p1.x+20, this.p1.y-50, this.dim.width, this.dim.height);		
+		g.fillRect(this.p1.x+20, this.p1.y-(50*elementosStack), this.dim.width, this.dim.height);		
 	}
 
 	@Override

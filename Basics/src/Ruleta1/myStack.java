@@ -5,23 +5,24 @@ import java.util.ArrayList;
 
 public class myStack <N> implements Pintable{
 	private Node top;
-	private int elements;
 	private Point P0;
-	
+
 	public myStack(N data) {
 		this.top=new Node(data);
-		this.elements=0;
 		this.P0=new Point();
 	}
 
 	public class Node {
 		public N data;
 		public Node next;
+		public int key;
 
 		public Node (N data) {
+			this.key=0;
 			this.data=data;
 		}
 		public Node() {
+			this.key=0;
 			this.data = null;
 			this.next = new Node(null);
 		}
@@ -29,30 +30,20 @@ public class myStack <N> implements Pintable{
 
 
 	public void push(N data) {
-		this.elements++;
 		Node node = new Node(data);
+
 		if (this.isEmpty()) {
-			//System.out.println("estoy en el if del push");
 			node.next=null;
 			this.top=node;
 		}
 		else {
-			//System.out.println("estoy en el else del push");
-
-			//System.out.println("haciendo el top el nuevo next de node");
-
 			node.next=this.top;
-
-			//System.out.println("haciendo top igual a node");
-
 			this.top=node;
-			//System.out.println("este es el elemento top: "+ this.top);
 		}
 	}
 
 	public void pop(){
 		this.top = this.top.next;
-		this.elements--;
 	}
 
 	public N peek() {
@@ -100,21 +91,28 @@ public class myStack <N> implements Pintable{
 		copy=this.top;
 
 		while (copy!=null){
-			//			System.out.println("Estoy en el while");
-
 			tmp.add(copy.data);
+
 			if(copy.next==null) {
 				break;
 			}
 			else {
 				copy=copy.next;
-				//				System.out.println("tmp actualizada= "+ tmp );
-				//				System.out.println("nuva data del copy: "+ copy.data+"");
 			}		
 		}
 
+		//System.out.println("Elementos en el stack: "+tmp+"");
+
 		for(int i = 0; i<tmp.size();i++) {
-			((Pintable) tmp.get(i)).agregarCoordenada(this.P0.x, this.P0.y);
+			if(i==0) {
+				((Pintable) tmp.get(i)).agregarCoordenada(this.P0.x, this.P0.y-100);
+			}
+			else if(i==1) {
+				((Pintable) tmp.get(i)).agregarCoordenada(this.P0.x, this.P0.y-50);
+			}
+			else if(i==2) {
+				((Pintable) tmp.get(i)).agregarCoordenada(this.P0.x, this.P0.y);
+			}
 			((Pintable) tmp.get(i)).pintate(g);
 		}
 	}
@@ -130,11 +128,5 @@ public class myStack <N> implements Pintable{
 		((Pintable) this.top.data).seleccionar();
 	}
 
-	public int getElements() {
-		return this.elements;
-	}
 
-	public void setElements(int elements) {
-		this.elements = elements;
-	}
 }
