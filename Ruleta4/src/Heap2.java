@@ -118,7 +118,7 @@ public class Heap2 {
 		//System.out.println("\n***************Entré a HeapSort***************************");
 		//System.out.println("size: "+this.size);
 		//System.out.println("length: "+this.length);
-		//this.BuidMaxHeap(array,D);
+		this.BuidMaxHeap(array,D);
 		//System.out.println("Sigo en HeapSort");
 		//System.out.println(Arrays.toString(this.A));
 		//System.out.println("size: "+this.size);
@@ -176,13 +176,10 @@ public class Heap2 {
 		//System.out.println("pos= "+pos);
 		this.A[pos] = x;
 		this.data[pos] = d;
-		//-----------------------------------
-		/*for(; pos > 1 && x>A[pos/2]; pos = pos/2 )
-			A[pos] = A[pos/2];
 
-		A[pos] = x;
-		*/
-		this.MaxHeapify(A, data, 1);
+		this.BuidMaxHeap(this.A, this.data);
+		
+		//this.MaxHeapify(A, data, 1);
 		this.size++;
 		//System.out.println("\nKeys post-Insert:"+Arrays.toString(this.A));
 		//System.out.println("Arreglo post-Insert:"+Arrays.toString(this.data));
