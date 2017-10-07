@@ -16,6 +16,8 @@ public class PruebaLinkedList {
 					+ "3) Imprimir lista\n"
 					+ "4) Ver actual\n"
 					+ "5) getElement\n"
+					+ "6) set\n"
+					+ "7) Contains\n"
 					+ "----------------------------------");
 			int opcion = Integer.parseInt(sc.nextLine());
 
@@ -23,7 +25,9 @@ public class PruebaLinkedList {
 			case 1:
 				System.out.println("Ingrese el número a insertar");
 				int num = Integer.parseInt(sc.nextLine());
-				l.add(num);
+				System.out.println("Ingrese la clave del número que ingresó");
+				int k = Integer.parseInt(sc.nextLine());
+				l.add(num,k);
 				System.out.println("Se ha ingresado el número: "+ num);
 				break;
 			case 2:
@@ -45,7 +49,22 @@ public class PruebaLinkedList {
 				else {
 					System.out.println("No existe ese elemento");
 				}
-
+				break;
+			case 6:
+				System.out.println("Ingrese el índice del elemento a cambiar");
+				int x = Integer.parseInt(sc.nextLine());
+				System.out.println("Este era el data anterior: "+ l.get(x)+"\n"
+						+ "Ingrese por favor el nuevo data");
+				int act = Integer.parseInt(sc.nextLine());
+				System.out.println("Actualizando su data");
+				l.set(x, act);
+				System.out.println("Nueva data: "+l.get(x));
+				break;
+			case 7:
+				System.out.println("Ingrese el índice del elemento a obtener");
+				int z = Integer.parseInt(sc.nextLine());
+				System.out.println(l.contains(z)+"");
+				break;
 			default:
 				break;
 			}

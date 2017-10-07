@@ -1,7 +1,7 @@
 public class linkedList <N>{
 	private Node current;
 	int size;
-	
+
 	public class Node {
 		public N data;
 		public Node next;
@@ -21,24 +21,26 @@ public class linkedList <N>{
 	public linkedList() {
 		this.current=new Node(1);
 		this.current.next=new Node(0);
+		this.size=0;
 	}
 
-	public linkedList(N data) {
-		this.current=new Node(data,1);
+	public linkedList(N data,int key) {
+		this.current=new Node(data,key);
 		this.current.next=new Node(0);
+		this.size=0;
 	}
-	
-	
+
+
 	//Insertar en la cabeza
-	public void add(N data) {
-		Node node = new Node(data,this.current.key+1);
+	public void add(int key,N data) {
+		Node node = new Node(data,key);
 
 		node.next=this.current;
 		this.current=node;
-		
+
 		this.size++;
 	}
-	
+
 	/*
 	//Insertar en el índice
 		public void add(int index,N data) {
@@ -47,26 +49,63 @@ public class linkedList <N>{
 			node.next=this.current;
 			this.current=node;
 		}
-	*/
+	 */
 
 	//Regresa la cabeza
 	public N getFirst() {
 		return this.current.data;
 	}
-	
+
 	//Regresar elemento
 	public N get(int index) {
-		
-		Node tmp = new Node(0);
-		tmp = this.current;
-		
-		while (tmp.next.key!=index) {
+		Node tmp = this.current;
+
+		while (tmp!=null&&tmp.key!=index) {
 			tmp=tmp.next;
 		}
-		
+
 		return tmp.data;
 	}
-	
+
+	public boolean contains(int index) {
+		try {
+			if(index>=0&&this.get(index)!=null) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		} catch (NullPointerException e) {
+			return false;
+		}
+	}
+
+	//Actualiza el elemento en el indice indicado
+	public void set(int index,N data) {
+
+		Node tmp = new Node(0);
+		tmp = this.current;
+
+		while (tmp.key!=index) {
+			tmp=tmp.next;
+		}
+
+		tmp.data=data;
+	}
+
+	/*//Regresar elemento
+	public N get(N data) {
+
+		Node tmp = new Node(0);
+		tmp = this.current;
+
+		while (tmp.next.key!=) {
+			tmp=tmp.next;
+		}
+
+		return tmp.data;
+	}*/
+
 	//Elimina el elemento mas reciente
 	public void removeFirst(){
 		if(this.isEmpty()) {
@@ -86,55 +125,11 @@ public class linkedList <N>{
 
 		Node copy= new Node(0);
 		copy=this.current;
-		
+
 		for(copy=this.current;copy.next.next!=null;copy=copy.next) { 
-			System.out.println(copy.data+"");
+			tmp+=("Código: "+copy.key+", "+copy.data+"\n");
 		}
 
 		return tmp;
 	}
-	
-	/*public boolean isDañada() {
-		Node copy= new Node(null);
-		copy=this.current;
-		int i=0;
-		
-		for(copy=this.current;copy.next!=null;copy=copy.next) {
-			i++;
-		}
-				
-		if(i==this.size) {
-			
-		}
-		else {
-			
-		}
-	}*/
-	
-	/*public static void main(String[] args) {
-		linkedList <Integer> L = new linkedList<Integer>();
-		System.out.println("creé la lista" +L);
-		
-		L.add(1);
-		System.out.println("añadí un elemento");
-		System.out.println(L);
-		System.out.println(L);
-		
-		L.add(2);
-		System.out.println("añadí un elemento");
-		System.out.println(L);
-		System.out.println(L);
-
-		L.add(3);
-		System.out.println("añadí un elemento");
-		System.out.println(L);
-		System.out.println(L);
-		
-		System.out.println(L.getFirst()+"");
-		
-		
-		
-	}*/
-	
-
 }
