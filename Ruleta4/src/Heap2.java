@@ -17,15 +17,18 @@ public class Heap2 {
 
 	//Construct the heap from an array of items.
 	public Heap2(int[] array,Comparable[] D){
-		//System.out.println("******************Constructor******************");
+		System.out.println("******************Constructor******************");
 
+		this.size=array.length;
 		this.length = array.length+1;
+		System.out.println("Size: "+this.size);
+		System.out.println("Length: "+this.length);
 		A = new int[array.length+1];
 		data = new Comparable[array.length+1];
 
 		System.arraycopy(array, 0, A, 1, array.length);
 		System.arraycopy(D, 0, data, 1, array.length);
-		//System.out.println("Constructor A prev Build Max"+ Arrays.toString(A)+"\n");
+		System.out.println("Constructor A prev Build Max"+ Arrays.toString(A)+"\n");
 
 		BuidMaxHeap(A,data);
 		//System.out.println("____________________________________________________________________");
@@ -38,19 +41,19 @@ public class Heap2 {
 		//System.out.println("Length received array: "+array.length);
 		//System.out.println("Arreglo recibido en BuldMaxHeap "+Arrays.toString(A)+"\n");
 
-		this.size=array.length;
+		//this.size=array.length;
 		
-		//System.out.println("Size pre for: "+ this.size);
+		System.out.println("Size pre for: "+ this.size);
 		
 		for (int i = Math.floorDiv(array.length, 2); i > 0; i--){
 			//System.out.println("i for BMH "+i);
 			MaxHeapify(A,data,i);
 		}
 
-		//System.out.println("Size at the end of BuildMaxHeap: "+ this.size);
+		/*System.out.println("Size at the end of BuildMaxHeap: "+ this.size);
 
-		//System.out.println("A post max heapify del BuildMaxHeap: "+Arrays.toString(A)+"\n");
-		//System.out.println("================Terminé Buid Max===========");
+		System.out.println("A post max heapify del BuildMaxHeap: "+Arrays.toString(A)+"\n");
+		System.out.println("================Terminé Buid Max===========");*/
 	}
 
 	public void MaxHeapify(int[] array,Comparable[] D,int i){
@@ -157,23 +160,28 @@ public class Heap2 {
 	}
 
 	public void insert(int x,Comparable d){
-		//System.out.println("---------------Estoy en insert----------------");
-		//System.out.println("Quiero ingresar "+d+", en la posición "+x);
-		
+		/*System.out.println("---------------Estoy en insert----------------");
+		System.out.println("Quiero ingresar "+d+", en la posición "+x);
+		*/
 		if(this.size == this.A.length-1) { 
 			resize();
 		}
 		//System.out.println("Size= "+this.size);
 		int pos = this.size+1;
 
-		for(; pos > 1 && x==this.A[pos/2]; pos = pos/2 ) {
+		for(; pos > 1 && x>this.A[pos/2]; pos = pos/2 ) {
 			this.A[pos] = this.A[pos/2];
 			this.data[pos] = this.data[pos/2];
 		}
 		//System.out.println("pos= "+pos);
 		this.A[pos] = x;
 		this.data[pos] = d;
-		
+		//-----------------------------------
+		/*for(; pos > 1 && x>A[pos/2]; pos = pos/2 )
+			A[pos] = A[pos/2];
+
+		A[pos] = x;
+		*/
 		this.MaxHeapify(A, data, 1);
 		this.size++;
 		//System.out.println("\nKeys post-Insert:"+Arrays.toString(this.A));
@@ -215,16 +223,16 @@ public class Heap2 {
 	}
 
 	public int left(int i) {
-		/*if (2*i>=this.length) {
+		if (2*i>=this.length) {
 			return 0;
-		}*/
+		}
 		return 2*i;
 	}
 
 	public int right(int i) {
-		/*if (2*i+1>=this.length) {
+		if (2*i+1>=this.length) {
 			return 0;
-		}*/
+		}
 		return 2*i+1;
 	}	
 }
