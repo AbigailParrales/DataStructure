@@ -26,6 +26,8 @@ public class PanelControles extends JPanel implements ActionListener{
 	
 	private Heap2 A;
 	
+	private int total;
+	
 	public PanelControles() {
 		super();
 		this.setPreferredSize(new Dimension(300,500));
@@ -89,6 +91,8 @@ public class PanelControles extends JPanel implements ActionListener{
 		this.add(this.btApostar3);
 		
 		this.A=new Heap2(10);
+		
+		this.total=0;
 	}
 
 	@Override
@@ -96,12 +100,18 @@ public class PanelControles extends JPanel implements ActionListener{
 		try {
 			if(e.getSource()==this.btApostar1) {
 				this.A.insert(Integer.parseInt(this.tfPlayer1.getText()),"Player 1");
+				this.total+=Integer.parseInt(this.tfPlayer1.getText());
+				System.out.println("Total: "+this.total);
 			}
 			else if(e.getSource()==this.btApostar2) {
 				this.A.insert(Integer.parseInt(this.tfPlayer2.getText()),"Player 2");
+				this.total+=Integer.parseInt(this.tfPlayer2.getText());
+				System.out.println("Total: "+this.total);
 			}
 			else if(e.getSource()==this.btApostar3) {
 				this.A.insert(Integer.parseInt(this.tfPlayer3.getText()),"Player 3");
+				this.total+=Integer.parseInt(this.tfPlayer3.getText());
+				System.out.println("Total: "+this.total);
 			}
 		} catch (NumberFormatException e1) {
 			JOptionPane.showMessageDialog(this, "Input invalido");
@@ -114,6 +124,7 @@ public class PanelControles extends JPanel implements ActionListener{
 			else if(e.getSource()==this.btApostar3) {
 				this.tfPlayer3.setText("");
 			}
+			System.out.println("Total: "+this.total);
 		}
 	}
 
@@ -143,6 +154,14 @@ public class PanelControles extends JPanel implements ActionListener{
 
 	public void setTfPlayer3() {
 		this.tfPlayer3.setText("");;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
 	}
 	
 	
