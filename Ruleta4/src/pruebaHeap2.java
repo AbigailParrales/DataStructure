@@ -19,24 +19,29 @@ public class pruebaHeap2 {
 			System.out.println("****************************Insert 1*****************************");
 			h.insert(6,"Aby");
 			
+			System.out.println("Size "+h.size);
 			System.out.println("Arreglo de keys"+Arrays.toString(h.A));
 			System.out.println("Arreglo de data"+Arrays.toString(h.data));
 			
-			h.HeapSort(h.A,h.data);
-			System.out.println("...........................Post HeapSort.............");
+			/*h.HeapSort(h.A,h.data);
+			System.out.println("...........................Post HeapSort.............");*/
+			
+			System.out.println("Size "+h.size);
 			System.out.println("Arreglo de keys"+Arrays.toString(h.A));
 			System.out.println("Arreglo de data"+Arrays.toString(h.data));
 		
 			System.out.println("\n****************************Insert 2******************************");
 			h.insert(10, "Ich");
 			
+			System.out.println("Size "+h.size);
 			System.out.println("Arreglo de keys"+Arrays.toString(h.A));
 			System.out.println("Arreglo de data"+Arrays.toString(h.data));
 			
 			h.HeapSort(h.A,h.data);
-			System.out.println("...........................Post HeapSort.............");
+			/*System.out.println("...........................Post HeapSort.............");
+			System.out.println("Size "+h.size);
 			System.out.println("Arreglo de keys"+Arrays.toString(h.A));
 			System.out.println("Arreglo de data"+Arrays.toString(h.data));
-			
+			*/
 		}
 	}

@@ -43,7 +43,7 @@ public class Heap2 {
 
 		//this.size=array.length;
 		
-		System.out.println("Size pre for: "+ this.size);
+		//System.out.println("Size pre for: "+ this.size);
 		
 		for (int i = Math.floorDiv(array.length, 2); i > 0; i--){
 			//System.out.println("i for BMH "+i);
@@ -124,6 +124,7 @@ public class Heap2 {
 		//System.out.println("size: "+this.size);
 		//System.out.println("length: "+this.length);
 		//System.out.println("length array: "+this.A.length+"\n");
+		int tmpSize=this.size;
 		for(int i=this.size;i>0;i--) {
 			//System.out.println("i Sort: "+i);
 
@@ -145,14 +146,14 @@ public class Heap2 {
 			//System.out.println("A[i]= "+this.A[i]);
 			//System.out.println("A[1]= "+this.A[1]);
 
-			this.size=this.size-1;	
-
+			this.size--;	
 
 			//System.out.println("size throwed by HeapSort"+this.size);
 			//System.out.println(Arrays.toString(this.A));
 			MaxHeapify(A,data, 1);
-			//System.out.println(Arrays.toString(this.A)+"\n");
+			System.out.println("Array after sorted"+Arrays.toString(this.A)+"\n");
 		}
+		this.size=tmpSize;
 		/*System.out.println("size: "+this.size);
 		System.out.println("length: "+this.length);
 		System.out.println("Arreglo ordenado:"+Arrays.toString(this.A));
@@ -160,9 +161,9 @@ public class Heap2 {
 	}
 
 	public void insert(int x,Comparable d){
-		/*System.out.println("---------------Estoy en insert----------------");
+		System.out.println("---------------Estoy en insert----------------");
 		System.out.println("Quiero ingresar "+d+", en la posición "+x);
-		*/
+		
 		if(this.size == this.A.length-1) { 
 			resize();
 		}
@@ -177,12 +178,16 @@ public class Heap2 {
 		this.A[pos] = x;
 		this.data[pos] = d;
 
-		this.BuidMaxHeap(this.A, this.data);
+		//this.BuidMaxHeap(this.A, this.data);
+		for (int i = Math.floorDiv(A.length, 2); i > 0; i--){
+			//System.out.println("i for BMH "+i);
+			MaxHeapify(A,data,i);
+		}
 		
 		//this.MaxHeapify(A, data, 1);
 		this.size++;
-		//System.out.println("\nKeys post-Insert:"+Arrays.toString(this.A));
-		//System.out.println("Arreglo post-Insert:"+Arrays.toString(this.data));
+		System.out.println("\nKeys post-Insert:"+Arrays.toString(this.A));
+		System.out.println("Arreglo post-Insert:"+Arrays.toString(this.data));
 	}
 
 	private void resize(){
@@ -202,6 +207,16 @@ public class Heap2 {
 		System.out.println("Heap lenght: "+this.length);
 		System.out.println("Arreglo de keys post resize"+Arrays.toString(this.A));
 		System.out.println("Arreglo de keys post resize"+Arrays.toString(this.data)+"\n");*/
+	}
+	
+	public void reset() {
+		int[] tmp=new int[5];
+		Comparable[] tmpC=new Comparable[5];
+		
+		this.A=tmp;
+		this.data=tmpC;
+		this.size=0;
+		this.length=5;
 	}
 
 	public String toString(){

@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 public class VentanaPrin extends JFrame{
+	private PanelControles pc;
+	private PanelRanking pr;
 
 	public VentanaPrin() {
 		super();
@@ -11,8 +13,11 @@ public class VentanaPrin extends JFrame{
 		this.setPreferredSize(new Dimension(700, 500));
 		this.setResizable(false);
 		
-		this.add(new PanelControles(),BorderLayout.WEST);
-		this.add(new PanelRanking(),BorderLayout.EAST);
+		this.pc= new PanelControles();
+		this.pr= new PanelRanking(this.pc);
+		
+		this.add(pc,BorderLayout.WEST);
+		this.add(pr,BorderLayout.EAST);
 		
 		this.pack();
 		this.setVisible(true);

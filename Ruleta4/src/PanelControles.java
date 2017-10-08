@@ -2,12 +2,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Label;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class PanelControles extends JPanel{
+public class PanelControles extends JPanel implements ActionListener{
 	
 	private JButton btApostar1,
 					btApostar2,
@@ -20,6 +23,8 @@ public class PanelControles extends JPanel{
 	private JTextField tfPlayer1,
 	  				   tfPlayer2,
 	  				   tfPlayer3;
+	
+	private Heap2 A;
 	
 	public PanelControles() {
 		super();
@@ -42,7 +47,7 @@ public class PanelControles extends JPanel{
 		this.btApostar1.setForeground(Color.BLACK);
 		this.btApostar1.setBackground(Color.YELLOW);
 		this.btApostar1.setBorderPainted(false);
-		//this.btApostar1.addActionListener(this);
+		this.btApostar1.addActionListener(this);
 		this.add(this.btApostar1);
 		
 		//Player2
@@ -61,7 +66,7 @@ public class PanelControles extends JPanel{
 		this.btApostar2.setForeground(Color.BLACK);
 		this.btApostar2.setBackground(Color.YELLOW);
 		this.btApostar2.setBorderPainted(false);
-		//this.btApostar2.addActionListener(this);
+		this.btApostar2.addActionListener(this);
 		this.add(this.btApostar2);
 		
 		//Player3
@@ -80,8 +85,66 @@ public class PanelControles extends JPanel{
 		this.btApostar3.setForeground(Color.BLACK);
 		this.btApostar3.setBackground(Color.YELLOW);
 		this.btApostar3.setBorderPainted(false);
-		//this.btApostar3.addActionListener(this);
+		this.btApostar3.addActionListener(this);
 		this.add(this.btApostar3);
 		
+		this.A=new Heap2(10);
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		try {
+			if(e.getSource()==this.btApostar1) {
+				this.A.insert(Integer.parseInt(this.tfPlayer1.getText()),"Player 1");
+			}
+			else if(e.getSource()==this.btApostar2) {
+				this.A.insert(Integer.parseInt(this.tfPlayer2.getText()),"Player 2");
+			}
+			else if(e.getSource()==this.btApostar3) {
+				this.A.insert(Integer.parseInt(this.tfPlayer3.getText()),"Player 3");
+			}
+		} catch (NumberFormatException e1) {
+			JOptionPane.showMessageDialog(this, "Input invalido");
+			if(e.getSource()==this.btApostar1) {
+				this.tfPlayer1.setText("");
+			}
+			else if(e.getSource()==this.btApostar2) {
+				this.tfPlayer2.setText("");
+			}
+			else if(e.getSource()==this.btApostar3) {
+				this.tfPlayer3.setText("");
+			}
+		}
+	}
+
+	public Heap2 getA() {
+		return this.A;
+	}
+
+	public String getTfPlayer1() {
+		return tfPlayer1.getText();
+	}
+
+	public void setTfPlayer1() {
+		this.tfPlayer1.setText("");;
+	}
+
+	public String getTfPlayer2() {
+		return tfPlayer2.getText();
+	}
+
+	public void setTfPlayer2() {
+		this.tfPlayer2.setText("");;
+	}
+
+	public String getTfPlayer3() {
+		return tfPlayer3.getText();
+	}
+
+	public void setTfPlayer3() {
+		this.tfPlayer3.setText("");;
+	}
+	
+	
+	
 }
