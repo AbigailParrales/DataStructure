@@ -144,11 +144,11 @@ public class PanelRanking extends JPanel implements ActionListener{
 	public String Place3() {
 		String tmpPlace=""+ this.pc.getA().data[this.pc.getA().size-2];
 		if((this.Place1.compareTo(tmpPlace)!=0)&&(this.Place2.compareTo(tmpPlace)!=0)) {
-			this.Place2=tmpPlace;
+			this.Place3=tmpPlace;
 		}
 		else {
 			for(int i=this.pc.getA().size-2;(((tmpPlace.compareTo(this.Place1)!=0)&&(tmpPlace.compareTo(this.Place2)!=0))||i>0);i--) {
-				this.Place2=(String) this.pc.getA().data[i];
+				this.Place3=(String) this.pc.getA().data[i];
 			}
 		}
 

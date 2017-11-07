@@ -8,13 +8,11 @@ public class PruebaTchailHash {
 		String[] names= {"Dany","Aby","Kelly","John","Adrian","Tomy","Frank","Samy","Kike","Eddy","Sophie","Carlos","Salim","Michael","Sayuri"};
 
 		HashTchain<Integer,String> t= new HashTchain<>();
-		System.out.println("Imprimiendo hashTChained");
 		for(int i=0;i<t.getM();i++) {
 			t.put(keys[i], names[i]);
 		}
-		for(int i=0;i<t.getM();i++) {
-			System.out.println("Slot"+ i+" ----"+t.get(i)+"key sel"+keys[i]);
-		}
+		System.out.println("Imprimiendo hashTChained");
+		System.out.println(t);
 
 		/*
 				t.add(0, "Dany");

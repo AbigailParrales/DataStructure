@@ -1,6 +1,11 @@
+/*
+ * Autor: Daniela Abigail Parrales Mejía
+ * Matrícula: A01228629*/
+
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class DoubleLinkedList <N>{
+public class DoubleLinkedList <N> implements Iterable<N>{
 	private Node<N> first;
 	private Node<N> last;
 	private int size;
@@ -23,7 +28,6 @@ public class DoubleLinkedList <N>{
 	/**
 	 * Constructor
 	 */
-
 	public DoubleLinkedList() {
 		this.first=new Node<N>();
 		this.first=this.last;
@@ -42,11 +46,114 @@ public class DoubleLinkedList <N>{
 		this.size=size;
 	}
 
-
+	/**
+	 * Returns true if the list has 0 elements
+	 * @return
+	 */
 	public Boolean isEmpty() {
 		return this.first==null;
 	}
 
+	/**
+	 * Returns the number of elements in the list
+	 * @return
+	 */
+	public int size() {
+		return this.size;
+	}
+
+	/**
+	 * Returns true if the item is in the list, otherwise it returns false
+	 * @param item
+	 * @return
+	 */
+	public boolean contains(N item) {
+		if(this.isEmpty()) {
+			throw new NoSuchElementException("List Empty");
+		}
+		Node <N> tmp = new Node();
+		tmp=this.first;
+		while(tmp!=null) {
+			if(tmp==item) {
+				return true;
+			}
+			else{
+				tmp=tmp.next;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Returns the data in the node located in the given index 
+	 * @param index
+	 * @return
+	 */
+	public N get(int index) {
+		if(this.isEmpty()||index<0||index>=this.size) {
+			throw new NoSuchElementException("Index not valid");
+		}
+		else if(index==0) {
+			return this.getFirst();
+		}
+		else if(index==this.size-1) {
+			return this.getLast();
+		}
+		Node <N> tmp = new Node();
+		tmp=this.first;
+		for(int i=0;i<index;i++) {
+			tmp=tmp.next;
+		}
+		return tmp.data;
+	}
+	
+
+	/**
+	 * Return the first element data
+	 * @return
+	 */
+	public N getFirst() {
+		if(this.isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		return this.first.data;
+	}
+
+	/**
+	 * Return the last element data
+	 * @return
+	 */
+	public N getLast() {
+		if(this.isEmpty()) {
+			throw new NoSuchElementException();
+		}
+		return this.last.data;
+	}
+	
+	/**
+	 * Returns the index where the given item its located
+	 * @param item
+	 * @return
+	 */
+	public int indexOf(N item) {
+		if(this.isEmpty()||item==null) {
+			throw new NoSuchElementException("Item not valid");
+		}
+		Node <N> tmp = new Node();
+		tmp=this.first;
+		int index=0;
+		while(tmp!=null) {
+			if(tmp.data==item) {
+				return index;
+			}
+			else{
+				tmp=tmp.next;
+			}
+			index++;
+		}
+		return -1;
+	}
+	
 	/**
 	 * Insert first
 	 * @param data
@@ -77,7 +184,6 @@ public class DoubleLinkedList <N>{
 			this.last=node;
 			this.size++;
 		}
-		this.first=node;
 	}
 
 	/**
@@ -105,7 +211,7 @@ public class DoubleLinkedList <N>{
 			node.prev.next=node;
 			this.size++;
 		}
-		
+
 	}
 
 
@@ -131,7 +237,7 @@ public class DoubleLinkedList <N>{
 			return tmp.data;
 		}
 	}
-	
+
 	/**
 	 * Removes the first element
 	 */
@@ -154,7 +260,7 @@ public class DoubleLinkedList <N>{
 			return tmp.data;
 		}
 	}
-	
+
 	/**
 	 * Removes the first element
 	 * @param index
@@ -175,85 +281,90 @@ public class DoubleLinkedList <N>{
 			for(int i=0; i<index;i++) {
 				tmp=tmp.next;
 			}
-			//Node <N> t;
+			Node <N> t;
 			tmp.prev.next=tmp.next;
-			//tmp.next;
+			tmp.next.prev=tmp.prev;
 			this.size--;
 			return tmp.data;
 		}
 	}
-	
-	/**
-	 * Return the first element data
-	 * @return
-	 */
-	public N getFirst() {
-		if(this.isEmpty()) {
-			throw new NoSuchElementException();
+
+	@Override
+	public Iterator<N> iterator() {
+		return new DLIterator<>(this.first);
+	}
+
+	public static class DLIterator<N> implements Iterator<N>{
+		int pos;
+		Node<N> first;
+		Node<N> current;
+		Node<N> lastReturned;
+
+		public DLIterator(Node<N> nodo) {
+			this.current = nodo;
+			this.lastReturned=null;
 		}
-		return this.first.data;
+
+		@Override
+		public boolean hasNext() {
+			return this.current!=null;
+		}
+
+		@Override
+		public N next() {
+			if(!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			this.lastReturned=this.current;
+			this.current=this.current.next;
+			return this.lastReturned.data;
+		}
+
+		@Override
+		public void remove() {
+			throw new NoSuchElementException("Not implemented yet");
+		}
 	}
 
 	/**
-	 * Return the last element data
-	 * @return
+	 * Returns the list in a string
 	 */
-	public N getLast() {
-		if(this.isEmpty()) {
-			throw new NoSuchElementException();
-		}
-		return this.last.data;
-	}
-	
-	/*public boolean contains(int index) {
-		try {
-			if(index>=0&&this.get(index)!=null) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		} catch (NullPointerException e) {
-			return false;
-		}
-	}*/
-
-	/*//Actualiza el elemento en el indice indicado
-	public void set(int index,N data) {
-
-		Node tmp = new Node(0);
-		tmp = this.first;
-
-		while (tmp.key!=index) {
-			tmp=tmp.next;
-		}
-
-		tmp.data=data;
-	}*/
-
-	/*//Regresar elemento
-		public N get(N data) {
-
-			Node tmp = new Node(0);
-			tmp = this.first;
-
-			while (tmp.next.key!=) {
-				tmp=tmp.next;
-			}
-
-			return tmp.data;
-		}*/
-
-	/*public String toString() {
-		String tmp="";
-
+	public String toString() {
+		StringBuilder tmp=new StringBuilder();
 		Node <N>copy= new Node<N>();
 		copy=this.first;
-
-		for(copy=this.first;copy.next.next!=null;copy=copy.next) { 
-			tmp+=("Código: "+copy.key+", "+copy.data+"\n");
+		for(int i=0;i<this.size;i++) { 
+			tmp.append("Pos: "+i+"  Content: "+copy.data+"\n");
+			copy=copy.next;
 		}
 
-		return tmp;
-	}*/
+		return tmp.toString();
+	}
+
+
+	public static void main(String[] args) {
+		DoubleLinkedList<String> l= new DoubleLinkedList<>();
+		l.addFirst("estás?\n");
+		l.addFirst("¿Cómo ");
+		l.addFirst("Hola ");
+		l.addFirst("w");
+		Iterator<String> it=l.iterator();
+		System.out.println("Printing");
+		for(String palabra: l) {
+			System.out.println(palabra);
+		}
+		
+		//System.out.println(l.contains("3"));
+		
+		System.out.println(l.size());
+		
+		System.out.println("pos 0: "+l.get(0));
+		System.out.println("pos 1: "+l.get(1));
+		System.out.println("pos 2: "+l.get(2));
+		System.out.println("pos 3: "+l.get(3));
+		
+		System.out.println("Hola is in index: "+l.indexOf("¿cómo"));
+		
+		System.out.println(l);
+	}
 }
