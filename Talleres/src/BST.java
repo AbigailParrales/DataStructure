@@ -70,7 +70,7 @@ public class BST <K extends Comparable <K>,V>{
 					add(key, val, nodo.right);
 				}
 				else {
-				nodo.right=new BSTNode(key, val);
+					nodo.right=new BSTNode(key, val);
 				}
 			}
 			else if(key.compareTo(nodo.key)<0) {
@@ -78,7 +78,7 @@ public class BST <K extends Comparable <K>,V>{
 					add(key, val, nodo.left);
 				}
 				else {
-				nodo.left=new BSTNode(key, val);
+					nodo.left=new BSTNode(key, val);
 				}
 			}
 			else if(key.compareTo(nodo.key)==0){
@@ -182,7 +182,7 @@ public class BST <K extends Comparable <K>,V>{
 		}
 		return salida;
 	}
-	
+
 	public String preorder() {
 		if (this.root!=null) {
 			return preorder(this.root);
@@ -202,7 +202,7 @@ public class BST <K extends Comparable <K>,V>{
 		}
 		return salida;
 	}
-	
+
 	public String postorder() {
 		if (this.root!=null) {
 			return postorder(this.root);
@@ -223,6 +223,37 @@ public class BST <K extends Comparable <K>,V>{
 		return salida;
 	}
 
+	public V get(K key) {
+		BSTNode nodo = this.root;
+
+		if(this.root.key==key) {
+			return this.root.val;
+		}
+		
+		while(nodo != null) {
+			if(key.compareTo(nodo.key)<0) {
+				nodo=nodo.left;
+			}
+			else if(key.compareTo(nodo.key)>0) {
+				nodo=nodo.right;
+			}
+			else if(key.compareTo(nodo.key)==0) {
+				return nodo.val;
+			}
+		}
+		return null;
+	}
+	
+	public boolean contains(K key) {
+		if(get(key)!=null) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	
 	public static void main(String[] args) {
 		BST<Integer,String> bT= new BST<Integer,String>();
 		bT.add(5, "E");
@@ -233,7 +264,6 @@ public class BST <K extends Comparable <K>,V>{
 		bT.add(3, "C");
 		bT.add(8, "H");
 		bT.add(4, "D");
-		
 		bT.add(9, "I");
 		bT.add(12, "L");
 		bT.add(10, "J");
@@ -241,12 +271,32 @@ public class BST <K extends Comparable <K>,V>{
 		bT.add(11, "K");
 		bT.add(14, "N");
 		bT.add(15, "O");
+
+		/*System.out.println("Value of 1: "+ bT.get(1));
+		System.out.println("Value of 2: "+ bT.get(2));
+		System.out.println("Value of 3: "+ bT.get(3));
+		System.out.println("Value of 4: "+ bT.get(4));
+		System.out.println("Value of 5: "+ bT.get(5));
+		System.out.println("Value of 6: "+ bT.get(6));
+		System.out.println("Value of 7: "+ bT.get(7));
+		System.out.println("Value of 8: "+ bT.get(8));
+		System.out.println("Value of 9: "+ bT.get(9));
+		System.out.println("Value of 10: "+ bT.get(10));
+		System.out.println("Value of 11: "+ bT.get(11));
+		System.out.println("Value of 12: "+ bT.get(12));
+		System.out.println("Value of 13: "+ bT.get(13));
+		System.out.println("Value of 14: "+ bT.get(14));
+		System.out.println("Value of 15: "+ bT.get(15));
 		
-		System.out.println(bT.inorder());
+		System.out.println("Value of 20: "+ bT.get(20));*/
+		
+		/*System.out.println(bT.inorder());
 		System.out.println(bT.preorder());
 		System.out.println(bT.postorder());
-		//bT.remove(5);
-		//System.out.println(bT.inorder());
-		
+		System.out.println("Removing 5: "+bT.remove(5));
+		System.out.println(bT.inorder());
+		System.out.println("Removing 20: "+bT.remove(20));
+		System.out.println(bT.inorder());*/
+
 	}
 }
