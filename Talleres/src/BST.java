@@ -1,3 +1,4 @@
+import java.util.logging.Level;
 
 public class BST <K extends Comparable <K>,V>{
 	private BSTNode root;
@@ -229,7 +230,7 @@ public class BST <K extends Comparable <K>,V>{
 		if(this.root.key==key) {
 			return this.root.val;
 		}
-		
+
 		while(nodo != null) {
 			if(key.compareTo(nodo.key)<0) {
 				nodo=nodo.left;
@@ -243,7 +244,7 @@ public class BST <K extends Comparable <K>,V>{
 		}
 		return null;
 	}
-	
+
 	public boolean contains(K key) {
 		if(get(key)!=null) {
 			return true;
@@ -253,7 +254,45 @@ public class BST <K extends Comparable <K>,V>{
 		}
 	}
 
-	
+	public int height() {
+		return (height(this.root))-1;
+	}
+
+	private int height(BSTNode node) {
+		if(node==null) {
+			return 0;
+		}
+		else {
+			int l=height(node.left);
+			int r=height(node.right);
+
+			if(l>r) {
+				return l+1;
+			}
+			else {
+				return r+1;
+			}
+		}
+	}
+
+	public String levelOrder() {
+		String s="";
+		for(int i=0; i<height();i++) {
+			s+=levelOrder(this.root,i);
+		}
+		return s;
+	}
+
+	private String levelOrder(BSTNode node,int level) {
+		if(node==null) {
+			return "";
+		}
+		if(level==1) {
+			return node.val+"";
+		}
+		return levelOrder(node.left, level-1)+levelOrder(node.right, level-1);
+	}
+
 	public static void main(String[] args) {
 		BST<Integer,String> bT= new BST<Integer,String>();
 		bT.add(5, "E");
@@ -272,6 +311,10 @@ public class BST <K extends Comparable <K>,V>{
 		bT.add(14, "N");
 		bT.add(15, "O");
 
+		//System.out.println(bT.levelOrder());
+
+		//System.out.println("Altura: "+bT.height());
+
 		/*System.out.println("Value of 1: "+ bT.get(1));
 		System.out.println("Value of 2: "+ bT.get(2));
 		System.out.println("Value of 3: "+ bT.get(3));
@@ -287,9 +330,9 @@ public class BST <K extends Comparable <K>,V>{
 		System.out.println("Value of 13: "+ bT.get(13));
 		System.out.println("Value of 14: "+ bT.get(14));
 		System.out.println("Value of 15: "+ bT.get(15));
-		
+
 		System.out.println("Value of 20: "+ bT.get(20));*/
-		
+
 		/*System.out.println(bT.inorder());
 		System.out.println(bT.preorder());
 		System.out.println(bT.postorder());
