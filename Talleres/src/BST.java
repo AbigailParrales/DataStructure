@@ -69,13 +69,17 @@ public class BST <K extends Comparable <K>,V>{
 				if (nodo.right!=null) {
 					add(key, val, nodo.right);
 				}
+				else {
 				nodo.right=new BSTNode(key, val);
+				}
 			}
 			else if(key.compareTo(nodo.key)<0) {
 				if (nodo.left!=null) {
 					add(key, val, nodo.left);
 				}
+				else {
 				nodo.left=new BSTNode(key, val);
+				}
 			}
 			else if(key.compareTo(nodo.key)==0){
 				nodo.val=val;
@@ -98,7 +102,7 @@ public class BST <K extends Comparable <K>,V>{
 		else{
 			actual = nodo.right;
 			anterior = null;
-			while (actual.right!=null) {
+			while (actual.left!=null) {
 				anterior=actual;
 				actual=actual.left;
 			}
@@ -178,9 +182,71 @@ public class BST <K extends Comparable <K>,V>{
 		}
 		return salida;
 	}
+	
+	public String preorder() {
+		if (this.root!=null) {
+			return preorder(this.root);
+		}
+		else
+			return "";
+	}
+
+	private String preorder(BSTNode x) {
+		String salida="";
+		salida+=x.key+", ";
+		if(x.left!=null) {
+			salida += preorder(x.left) + "";
+		}
+		if(x.right!=null) {
+			salida += "" + preorder(x.right);
+		}
+		return salida;
+	}
+	
+	public String postorder() {
+		if (this.root!=null) {
+			return postorder(this.root);
+		}
+		else
+			return "";
+	}
+
+	private String postorder(BSTNode x) {
+		String salida="";
+		if(x.left!=null) {
+			salida += postorder(x.left) + "";
+		}
+		if(x.right!=null) {
+			salida += "" + postorder(x.right);
+		}
+		salida+=x.key+", ";
+		return salida;
+	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		BST<Integer,String> bT= new BST<Integer,String>();
+		bT.add(5, "E");
+		bT.add(1, "A");
+		bT.add(6, "F");
+		bT.add(2, "B");
+		bT.add(7, "G");
+		bT.add(3, "C");
+		bT.add(8, "H");
+		bT.add(4, "D");
+		
+		bT.add(9, "I");
+		bT.add(12, "L");
+		bT.add(10, "J");
+		bT.add(13, "M");
+		bT.add(11, "K");
+		bT.add(14, "N");
+		bT.add(15, "O");
+		
+		System.out.println(bT.inorder());
+		System.out.println(bT.preorder());
+		System.out.println(bT.postorder());
+		//bT.remove(5);
+		//System.out.println(bT.inorder());
+		
 	}
 }
