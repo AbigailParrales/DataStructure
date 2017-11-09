@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class Writer {
 	
 	public static void main(String[] args) {
-		
+		/*
 		File archivo = new File("C:\\Users\\Daniela Parrales\\Documents\\Escuela\\Universidad\\Progamacion\\45.ptr");
 		int[] x_tmp=new int[10];	//keys...key
 		int[] c_tmp=new int[10];	//children...ptr
@@ -51,6 +51,9 @@ public class Writer {
 		catch (IOException e) {
 			System.out.println("Error al intentar leer el archivo"+e);
 		}
+	*/
+		
+		
 		
 	}
 

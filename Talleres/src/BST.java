@@ -103,11 +103,12 @@ public class BST <K extends Comparable <K>,V>{
 		else{
 			actual = nodo.right;
 			anterior = null;
-			while (actual.left!=null) {
+			while (actual.left!=null&&actual.right!=null) {
 				anterior=actual;
 				actual=actual.left;
 			}
 			nodo.val=actual.val;
+			nodo.key=actual.key;
 			if(anterior==null) {
 				nodo.right=actual.right;
 			}
@@ -125,6 +126,7 @@ public class BST <K extends Comparable <K>,V>{
 		}
 		else {
 			BSTNode actual,anterior;
+
 			actual=this.root;
 			anterior=this.root;
 			boolean encontrado=false;
@@ -148,10 +150,16 @@ public class BST <K extends Comparable <K>,V>{
 			else if(encontrado) {
 				if(actual==this.root) {
 					BSTNode tmp=sucesor(this.root);
-					this.root.key=tmp.key;
-					this.root.val=tmp.val;
-					tmp.key=null;
-					tmp.val=null;
+					if(tmp!=null) {
+						if(tmp.key.compareTo(key)>0) {
+							tmp.left=this.root.left;
+						}
+						this.root=tmp;
+						tmp=null;
+					}
+					else {
+						return false;
+					}
 				}
 				else if(anterior.key.compareTo(key)>0) {
 					anterior.left=sucesor(actual);
@@ -165,11 +173,12 @@ public class BST <K extends Comparable <K>,V>{
 	}
 
 	public String inorder() {
-		if (this.root!=null) {
+		if(isEmpty()) {
+			return "Empty tree";
+		}
+		else {
 			return inorder(this.root);
 		}
-		else
-			return "";
 	}
 
 	private String inorder(BSTNode x) {
@@ -245,6 +254,27 @@ public class BST <K extends Comparable <K>,V>{
 		return null;
 	}
 
+	public BSTNode getNode(K key) {
+		BSTNode nodo = this.root;
+
+		if(this.root.key==key) {
+			return this.root;
+		}
+
+		while(nodo != null) {
+			if(key.compareTo(nodo.key)<0) {
+				nodo=nodo.left;
+			}
+			else if(key.compareTo(nodo.key)>0) {
+				nodo=nodo.right;
+			}
+			else if(key.compareTo(nodo.key)==0) {
+				return nodo;
+			}
+		}
+		return null;
+	}
+
 	public boolean contains(K key) {
 		if(get(key)!=null) {
 			return true;
@@ -293,6 +323,86 @@ public class BST <K extends Comparable <K>,V>{
 		return levelOrder(node.left, level-1)+levelOrder(node.right, level-1);
 	}
 
+	public String descendent() {
+		if (this.root!=null) {
+			return descendent(this.root);
+		}
+		else
+			return "";
+	}
+
+	private String descendent(BSTNode x) {
+		String salida="";
+		if(x.left!=null) {
+			salida += descendent(x.left) + "";
+		}
+		salida+=x.toString();
+		if(x.right!=null) {
+			salida += "" + descendent(x.right);
+		}
+		return salida;
+	}
+
+	public String byLevelOrder() {
+		String s="";
+		for(int i=0; i<height();i++) {
+			s+=byLevelOrder(this.root,i);
+		}
+		return s;
+	}
+
+	private String byLevelOrder(BSTNode node,int level) {
+		if(node==null) {
+			return "";
+		}
+		if(level==1) {
+			return node.toString();
+		}
+		return byLevelOrder(node.left, level-1)+byLevelOrder(node.right, level-1);
+	}
+
+	public String greaterThan(K key) {
+		return inorder(sucesor(getNode(key)));
+	}
+
+	public int leafCount() {
+		return leafCount(this.root);
+	}
+
+	private int leafCount(BSTNode node) {
+		if(node==null) {
+			return 0;
+		}
+		if(node.left==null&&node.right==null) {
+			return 1;
+		}
+		else {
+			return leafCount(node.left)+leafCount(node.right);
+		}
+	}
+
+	public String leaves() {
+		return leaves(this.root);
+	}
+
+	private String leaves(BSTNode node) {
+		String s="";
+		if(node==null) {
+			return "";
+		}
+		if(node.left==null&&node.right==null) {
+			s+=node.toString();
+			return s;
+		}
+		else {
+			return leaves(node.left)+leaves(node.right);
+		}
+	}
+
+	public K getRoot() {
+		return this.root.key;
+	}
+
 	public static void main(String[] args) {
 		BST<Integer,String> bT= new BST<Integer,String>();
 		bT.add(5, "E");
@@ -311,7 +421,57 @@ public class BST <K extends Comparable <K>,V>{
 		bT.add(14, "N");
 		bT.add(15, "O");
 
-		//System.out.println(bT.levelOrder());
+		/*
+		System.out.println(bT.inorder());
+		System.out.println("Root: "+bT.getRoot());
+		System.out.println();
+
+		System.out.println("1: "+bT.remove(bT.getRoot()));
+		System.out.println("Root: "+bT.getRoot());
+		System.out.println(bT.inorder());
+		System.out.println();
+
+		System.out.println("2: "+bT.remove(bT.getRoot()));
+		System.out.println("Root: "+bT.getRoot());
+		System.out.println(bT.inorder());
+		System.out.println();
+
+		System.out.println("3: "+bT.remove(bT.getRoot()));
+		System.out.println("Root: "+bT.getRoot());
+		System.out.println(bT.inorder());
+		System.out.println();
+
+		System.out.println("4: "+bT.remove(bT.getRoot()));
+		System.out.println("Root: "+bT.getRoot());
+		System.out.println(bT.inorder());
+		System.out.println();
+
+		System.out.println("5: "+bT.remove(bT.getRoot()));
+		System.out.println("Root: "+bT.getRoot());
+		System.out.println(bT.inorder());
+		System.out.println();
+
+		System.out.println("6: "+bT.remove(bT.getRoot()));
+		System.out.println("Root: "+bT.getRoot());
+		System.out.println(bT.inorder());
+		System.out.println();
+
+		System.out.println("7: "+bT.remove(bT.getRoot()));
+		System.out.println("Root: "+bT.getRoot());
+		System.out.println(bT.inorder());
+		System.out.println();*/
+
+		//System.out.println(bT.leaves());
+
+		//System.out.println(bT.leafCount());
+
+		//System.out.println(bT.greaterThan(5));
+
+		//System.out.println(bT.byLevelOrder());
+
+		//System.out.println(bT.descendent());
+
+		System.out.println(bT.levelOrder());
 
 		//System.out.println("Altura: "+bT.height());
 
