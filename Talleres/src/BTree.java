@@ -118,8 +118,8 @@ public class BTree {
 				}
 				i++;
 			}
-			System.out.println(".ptr: "+Arrays.toString(c_tmp));
-			System.out.println(".key: "+Arrays.toString(x_tmp));
+			//System.out.println(".ptr: "+Arrays.toString(c_tmp));
+			//System.out.println(".key: "+Arrays.toString(x_tmp));
 			BNode nodo= new BNode(this.t);
 			nodo.c=c_tmp;
 			nodo.x=x_tmp;
@@ -165,10 +165,13 @@ public class BTree {
 	}
 
 	public void splitChild(BNode x, int i) {
-		System.out.println("In split");
 		BNode z = new BNode(t);
-		System.out.println(Arrays.toString(x.c));
-		System.out.println(i);
+		
+		System.out.println("-----------------X----------------");
+		System.out.println("Keys "+Arrays.toString(x.x));
+		System.out.println("Apuntadores "+Arrays.toString(x.c));
+		System.out.println("i= "+i);
+		
 		BNode y = this.read_disk(x.c[i-1]+".ptr");
 		z.ifLeaf=y.ifLeaf;
 		z.n=t-1;
@@ -266,10 +269,10 @@ public class BTree {
 
 	public static void main(String[] args) {
 		BTree bt= new BTree(2);
-		bt.insert(1);
 		bt.insert(2);
-		bt.insert(3);
-		bt.insert(4);
+		bt.insert(1);
+		//bt.insert(3);
+		//bt.insert(4);
 		//bt.insert(5);
 		//bt.insert(6);
 		//System.out.println("Children: "+Arrays.toString(bt.root.c));
