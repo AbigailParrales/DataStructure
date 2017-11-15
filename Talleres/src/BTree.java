@@ -1,4 +1,4 @@
-    import java.io.BufferedReader;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,34 +20,44 @@ public class BTree {
 		int[]c;
 
 		public BNode(int t) {
-			this.ifLeaf=false;
+			this.ifLeaf=true;
 			this.n=0;
 			this.x= new int[2*t];	//keys
-			this.c= new int[2*t];	//children
+			this.c= new int[2*t+1];	//children
 		}
 	}
 
 	public BTree(int t) {
 		this.t=t;
-		this.root=null;
+		this.root= new BNode(this.t);
+		write_disk(root,"root.ptr");
 	}
 
-	private File write_disk(BNode nodo) {
+	public boolean isEmpty() {
+		return this.root.n==0;
+	}
+
+	private File write_disk(BNode nodo, String name) {
 		BufferedWriter writer = null;
-		File f= new File("C:\\Users\\Daniela Parrales\\Documents\\GitHub\\DataStructure\\Talleres\\TextFiles_tmp\\"+nodo.x[0]+".ptr");
+		File f= new File("C:\\Users\\Daniela Parrales\\Documents\\GitHub\\DataStructure\\Talleres\\TextFiles_tmp\\"+name);
 		try {
 			writer = new BufferedWriter(new FileWriter(f));
 			if(nodo.ifLeaf) {
-				writer.write("1"+"\n");
+				writer.write("1");
 			}
 			if(!nodo.ifLeaf) {
-				writer.write("0"+"\n");
+				writer.write("0");
 			}
-			writer.write(nodo.n+"\n");
-			writer.write(nodo.c[0]+".ptr\n");
+			writer.newLine();
+			writer.write(nodo.n+"");
+			writer.newLine();
+			writer.write(nodo.c[0]+".ptr");
+			writer.newLine();
 			for(int i=0;i<nodo.n+1;i++) {
-				writer.write(nodo.x[i]+".key\n");
-				writer.write(nodo.c[i+1]+".ptr\n");
+				writer.write(nodo.x[i]+".key");
+				writer.newLine();
+				writer.write(nodo.c[i+1]+".ptr");
+				writer.newLine();
 			}
 		} 
 		catch (Exception e) {
@@ -64,22 +74,22 @@ public class BTree {
 		return f;
 	}
 
-	private BNode read_disk(File archivo) {
+	private BNode read_disk(String archivo) {
 		int[] x_tmp=new int[this.t*2];	//keys...key
-		int[] c_tmp=new int[this.t*2];	//children...ptr
+		int[] c_tmp=new int[this.t*2+1];	//children...ptr
 		boolean isLeaf_tmp = false;
 		int n_tmp = 0;
 		String linea="";
 
 		try {
-			BufferedReader bf = new BufferedReader(new FileReader(archivo));
+			BufferedReader bf = new BufferedReader(new FileReader("C:\\Users\\Daniela Parrales\\Documents\\GitHub\\DataStructure\\Talleres\\TextFiles_tmp\\"+archivo));
 			int i=0;
 			int even=0;
 			int odd=0;
 			String []separada=new String[10];
 			while((linea=bf.readLine())!=null){
 				//System.out.println("Linea: "+i+"---- "+linea);
-				
+
 				if(i==0) {
 					if(Integer.parseInt(linea)==0) {
 						isLeaf_tmp=false;
@@ -92,7 +102,7 @@ public class BTree {
 					n_tmp=Integer.parseInt(linea);
 				}
 				if(i>1) {
-					
+
 					if (i%2==0) {//even
 						separada=linea.split(".ptr");
 						//System.out.println("Separated .ptr: "+Arrays.toString(separada));
@@ -125,16 +135,145 @@ public class BTree {
 		catch (IOException e) {
 			System.out.println("Error al intentar leer el archivo"+e);
 		}
-		
-		return null;
 
+		return null;
+	}
+
+	public void search(int k) {
+		if(!isEmpty()) {
+			System.out.println(search(this.root, k));;
+		}
+		else {
+			System.out.println("Empty tree");
+		}
+	}
+
+	private String search(BNode x,int k) {
+		int i = 0;
+		while((i<x.n)&&(k>x.x[i])) {
+			i++;
+		}
+		if((i<=x.n)&&(k==x.x[i])) {
+			return k+".key";
+		}
+		else if(x.ifLeaf) {
+			return "";
+		}
+		else {
+			return search(this.read_disk(x.c[i]+".ptr"), k);
+		}
+	}
+
+	public void splitChild(BNode x, int i) {
+		System.out.println("In split");
+		BNode z = new BNode(t);
+		System.out.println(Arrays.toString(x.c));
+		System.out.println(i);
+		BNode y = this.read_disk(x.c[i-1]+".ptr");
+		z.ifLeaf=y.ifLeaf;
+		z.n=t-1;
+		for(int j=0;j<t-1;j++) {
+			z.x[j]=y.x[j+t];
+		}
+		if(!y.ifLeaf) {
+			for(int j=0;j<t;j++) {
+				z.c[j]=y.c[j+t];
+			}
+		}
+		y.n=t-1;
+		for(int j=x.n-1;j>i+1;j--) {
+			x.c[j+1]=x.c[j];
+		}
+		x.c[i+1]=z.x[0];
+		for(int j=x.n-1;j>i+1;j--) {
+			x.x[j+1]=y.x[j];
+		}
+		x.x[i-1]=y.x[t];
+		x.n=x.n+1;
+
+		write_disk(y,y.x[0]+".ptr");
+		write_disk(z,z.x[0]+".ptr");
+		if(x==this.root) {
+			write_disk(x,"root.ptr");
+		}
+		else {
+			write_disk(x,x.x[0]+".ptr");
+		}
+	}
+
+	private void insertNonfull(BNode x, int k) {
+		int i = x.n;
+		if(x.ifLeaf) {
+			if(i==0){
+				x.x[0]=k;
+				x.n=1;
+				write_disk(x, x.x[0]+".ptr");
+			}
+			else {
+				while(i>=1 && k<x.x[i]) {
+					x.x[i]=x.x[i-1];
+					i--;
+				}
+				x.x[i]=k;
+				x.n=x.n+1;
+				write_disk(x, x.x[0]+".ptr");
+			}
+		}
+		else {
+			while(i>=0 && k<x.x[i]) {
+				i--;
+			}
+			i++;
+			BNode n=read_disk(x.c[i]+".ptr");
+			if(n.n==2*t-1) {
+				splitChild(x, i);
+				if(k>x.x[i]) {
+					i++;
+				}
+			}
+			insertNonfull(n, k);
+		}		
+	}
+
+	public void insert(int k) {
+		BNode r =this.root;
+		BNode s = new BNode(t);
+		if(r.n==2*t-1) {
+			this.root=s;
+			s.ifLeaf=false;
+			s.n=0;
+			s.c[0]=r.x[0];
+			splitChild(s, 1);
+			insertNonfull(s, k);
+
+			System.out.println("---------------S--------------");
+			System.out.println("Children: "+Arrays.toString(s.c));
+			System.out.println("Keys: "+Arrays.toString(s.x));
+
+			System.out.println("---------------Root--------------");
+			System.out.println("Children: "+Arrays.toString(root.c));
+			System.out.println("Keys: "+Arrays.toString(root.x));
+		}
+		else {
+			insertNonfull(r, k);
+
+			System.out.println("---------------Root--------------");
+			System.out.println("Children: "+Arrays.toString(root.c));
+			System.out.println("Keys: "+Arrays.toString(root.x));
+		}
+		write_disk(this.root, "root.ptr");
 	}
 
 	public static void main(String[] args) {
-		File archivo = new File("C:\\Users\\Daniela Parrales\\Documents\\Escuela\\Universidad\\Progamacion\\45.ptr");
-		BTree bt= new BTree(5);
-		
-		bt.read_disk(archivo);
+		BTree bt= new BTree(2);
+		bt.insert(1);
+		bt.insert(2);
+		bt.insert(3);
+		bt.insert(4);
+		//bt.insert(5);
+		//bt.insert(6);
+		//System.out.println("Children: "+Arrays.toString(bt.root.c));
+		//System.out.println("Keys: "+Arrays.toString(bt.root.x));
 	}
-	
+
 }
