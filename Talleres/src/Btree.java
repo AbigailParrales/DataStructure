@@ -9,10 +9,10 @@ import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
-public class BTree {
+public class Btree {
 	private int t;
 	private BNode root;
-
+//-------------------NODE CLASS------------------------------//
 	private class BNode{
 		boolean ifLeaf;
 		int n;
@@ -26,11 +26,11 @@ public class BTree {
 			this.c= new int[2*t+1];	//children
 		}
 	}
-
-	public BTree(int t) {
+//--------------------END OF NODE CLASS--------------------//
+	public Btree(int t) {
 		this.t=t;
-		this.root= new BNode(this.t);
-		write_disk(root,"root.ptr");
+		this.root=new BNode(this.t);
+//		write_disk(this.root,this.root.x[0]+".ptr");
 	}
 
 	public boolean isEmpty() {
@@ -38,26 +38,26 @@ public class BTree {
 	}
 
 	private File write_disk(BNode nodo, String name) {
-		BufferedWriter writer = null;
-		File f= new File("C:\\Users\\Daniela Parrales\\Documents\\GitHub\\DataStructure\\Talleres\\TextFiles_tmp\\"+name);
+		BufferedWriter bw = null;
+		File f= new File("C:\\Users\\oscar\\Desktop\\pruebaBTree\\"+name);
 		try {
-			writer = new BufferedWriter(new FileWriter(f));
+			bw = new BufferedWriter(new FileWriter(f));
 			if(nodo.ifLeaf) {
-				writer.write("1");
+				bw.write("1");
 			}
-			if(!nodo.ifLeaf) {
-				writer.write("0");
+			else{
+				bw.write("0");
 			}
-			writer.newLine();
-			writer.write(nodo.n+"");
-			writer.newLine();
-			writer.write(nodo.c[0]+".ptr");
-			writer.newLine();
+			bw.newLine();
+			bw.write(nodo.n+"");
+			bw.newLine();
+			bw.write(nodo.c[0]+".ptr");
+			bw.newLine();
 			for(int i=0;i<nodo.n+1;i++) {
-				writer.write(nodo.x[i]+".key");
-				writer.newLine();
-				writer.write(nodo.c[i+1]+".ptr");
-				writer.newLine();
+				bw.write(nodo.x[i]+".key");
+				bw.newLine();
+				bw.write(nodo.c[i+1]+".ptr");
+				bw.newLine();
 			}
 		} 
 		catch (Exception e) {
@@ -65,8 +65,7 @@ public class BTree {
 		} 
 		finally {
 			try {
-				// Close the writer regardless of what happens...
-				writer.close();
+				bw.close();
 			} 
 			catch (Exception e) {
 			}
@@ -82,7 +81,7 @@ public class BTree {
 		String linea="";
 
 		try {
-			BufferedReader bf = new BufferedReader(new FileReader("C:\\Users\\Daniela Parrales\\Documents\\GitHub\\DataStructure\\Talleres\\TextFiles_tmp\\"+archivo));
+			BufferedReader bf = new BufferedReader(new FileReader("C:\\Users\\oscar\\Desktop\\pruebaBTree\\"+archivo));
 			int i=0;
 			int even=0;
 			int odd=0;
@@ -118,8 +117,8 @@ public class BTree {
 				}
 				i++;
 			}
-			//System.out.println(".ptr: "+Arrays.toString(c_tmp));
-			//System.out.println(".key: "+Arrays.toString(x_tmp));
+			System.out.println(".ptr: "+Arrays.toString(c_tmp));
+			System.out.println(".key: "+Arrays.toString(x_tmp));
 			BNode nodo= new BNode(this.t);
 			nodo.c=c_tmp;
 			nodo.x=x_tmp;
@@ -165,62 +164,100 @@ public class BTree {
 	}
 
 	public void splitChild(BNode x, int i) {
+		System.out.println("In split");
+		//creates node z
 		BNode z = new BNode(t);
-		
-		System.out.println("-----------------X----------------");
-		System.out.println("Keys "+Arrays.toString(x.x));
-		System.out.println("Apuntadores "+Arrays.toString(x.c));
-		System.out.println("i= "+i);
-		
+//		System.out.println(Arrays.toString(x.c));
+//		System.out.println(i);
 		BNode y = this.read_disk(x.c[i-1]+".ptr");
+		
 		z.ifLeaf=y.ifLeaf;
 		z.n=t-1;
+		System.out.println(z.x.length);
+//		for(int q=0;q<z.x.length;q++){
+//			System.out.println(z.x[q]);
+//		}
+		//end creation
+		
+		//copia a z los valores extremos izquierdos
 		for(int j=0;j<t-1;j++) {
 			z.x[j]=y.x[j+t];
+			y.x[j+t]=0; //agregado por mi
 		}
+		System.out.println("z es en x :");
+		for(int q=0;q<z.x.length;q++){
+			System.out.println(z.x[q]);
+		}
+		
+		
+		//no lo puedo hacer con el ejemplo prueba		
 		if(!y.ifLeaf) {
 			for(int j=0;j<t;j++) {
 				z.c[j]=y.c[j+t];
 			}
 		}
+		
+		
 		y.n=t-1;
+		
+		System.out.println("y es en x :");
+		for(int q=0;q<y.x.length;q++){
+			System.out.println(y.x[q]);
+		}
+		System.out.println("y length:" +y.x.length);
+		System.out.println("dsadopwqkdopwqkalñsdksalñ");
+		
+		//makes the space to the pointer from the y node to the node x
+		//no lo puedo revisar con mi ejemplo
 		for(int j=x.n-1;j>i+1;j--) {
 			x.c[j+1]=x.c[j];
 		}
+		
+		System.out.println("x en x es:");
+		for(int q=0;q<x.x.length;q++){
+			System.out.println(x.c[q]);
+		}
+		
+		//makes space for the key from the node y to the node x
 		x.c[i+1]=z.x[0];
 		for(int j=x.n-1;j>i+1;j--) {
 			x.x[j+1]=y.x[j];
 		}
-		x.x[i-1]=y.x[t];
-		x.n=x.n+1;
+		
+		//hasta aquí va bien
+		
+		//copia la key a x
+		x.x[i-1]=y.x[t-1];
+		x.n++;
+		
+		System.out.println("en x es x:");
+		for(int q=0;q<x.x.length;q++){
+			System.out.println(x.x[q]);
+		}
+		
 
 		write_disk(y,y.x[0]+".ptr");
 		write_disk(z,z.x[0]+".ptr");
-		if(x==this.root) {
-			write_disk(x,"root.ptr");
-		}
-		else {
-			write_disk(x,x.x[0]+".ptr");
-		}
+		write_disk(x,x.x[0]+".ptr");
 	}
 
 	private void insertNonfull(BNode x, int k) {
 		int i = x.n;
+		
 		if(x.ifLeaf) {
-			if(i==0){
-				x.x[0]=k;
-				x.n=1;
-				write_disk(x, x.x[0]+".ptr");
-			}
-			else {
-				while(i>=1 && k<x.x[i]) {
+//			if(x.n==0){
+//				x.x[0]=k;
+//				x.n=1;	
+//			}
+//			else {
+				while(i>=1 && k<x.x[i-1]) {
 					x.x[i]=x.x[i-1];
 					i--;
 				}
 				x.x[i]=k;
 				x.n=x.n+1;
-				write_disk(x, x.x[0]+".ptr");
-			}
+//			}
+		write_disk(x, x.x[0]+".ptr");
 		}
 		else {
 			while(i>=0 && k<x.x[i]) {
@@ -239,9 +276,10 @@ public class BTree {
 	}
 
 	public void insert(int k) {
-		BNode r =this.root;
-		BNode s = new BNode(t);
+		BNode r=this.root;
+		//if it's full
 		if(r.n==2*t-1) {
+			BNode s=new BNode(t);
 			this.root=s;
 			s.ifLeaf=false;
 			s.n=0;
@@ -257,6 +295,7 @@ public class BTree {
 			System.out.println("Children: "+Arrays.toString(root.c));
 			System.out.println("Keys: "+Arrays.toString(root.x));
 		}
+		
 		else {
 			insertNonfull(r, k);
 
@@ -264,17 +303,21 @@ public class BTree {
 			System.out.println("Children: "+Arrays.toString(root.c));
 			System.out.println("Keys: "+Arrays.toString(root.x));
 		}
-		write_disk(this.root, "root.ptr");
+//		write_disk(this.root, "root.ptr");
 	}
 
 	public static void main(String[] args) {
-		BTree bt= new BTree(2);
-		bt.insert(2);
-		bt.insert(1);
-		//bt.insert(3);
-		//bt.insert(4);
-		//bt.insert(5);
-		//bt.insert(6);
+		Btree bt= new Btree(2);
+		bt.insert(20);
+		bt.insert(35);
+		bt.insert(40);
+		System.out.println("------------------");
+//		bt.insert(19);
+		bt.insert(50);
+//		bt.insert(2);		
+//		bt.insert(4);
+//		bt.insert(5);
+//		bt.insert(6);
 		//System.out.println("Children: "+Arrays.toString(bt.root.c));
 		//System.out.println("Keys: "+Arrays.toString(bt.root.x));
 	}
